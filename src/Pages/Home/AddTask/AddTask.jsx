@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const AddTask = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-
+    const [error, setError] = useState("");
     //handling form submit
     const onSubmit = item => {
+        console.log(item);
         fetch('http://localhost:3000/task', {
             method: "POST",
             headers: {
@@ -14,13 +16,20 @@ const AddTask = () => {
             body: JSON.stringify(item)
         })
             .then(res => res.json()
-                .then(() => {
-                    Swal.fire(
-                        'Done!',
-                        'Task Added successfully!',
-                        'success'
-                    );
-                    reset();
+                .then((result) => {
+                    console.log(result);
+                    if (result.insertedId) {
+                        Swal.fire(
+                            'Done!',
+                            'Task Added successfully!',
+                            'success'
+                        );
+                        setError("")
+                        reset();
+                    }
+                    else {
+                        setError(result)
+                    }
                 }))
 
 
@@ -62,7 +71,9 @@ const AddTask = () => {
                                     <input type="radio" {...register("status")} value="pending" className="radio checked:bg-blue-500" />
                                     <span className="label-text">Pending</span>
                                 </label>
+                                
                             </div>
+                            <p className="text-red-500">{error}</p>
                         </div>
 
                         <div className="form-control mt-6">
