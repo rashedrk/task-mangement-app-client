@@ -1,11 +1,21 @@
 import { useForm } from "react-hook-form";
 
 const AddTask = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit,reset, formState: { errors } } = useForm();
 
     //handling form submit
-    const onSubmit = data => {
-        console.log(data);
+    const onSubmit = item => {
+        fetch('http://localhost:3000/task', {
+            method: "POST",
+            headers: {
+                "content-type": "Application/json"
+            },
+            body: JSON.stringify(item)
+        })
+            .then(res => res.json()
+            .then(() => { }))
+            
+            reset();
     };
     return (
         <div className="hero min-h-screen bg-base-200">
