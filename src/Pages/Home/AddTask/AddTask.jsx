@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const AddTask = () => {
-    const { register, handleSubmit,reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     //handling form submit
     const onSubmit = item => {
@@ -13,9 +14,16 @@ const AddTask = () => {
             body: JSON.stringify(item)
         })
             .then(res => res.json()
-            .then(() => { }))
-            
-            reset();
+                .then(() => {
+                    Swal.fire(
+                        'Done!',
+                        'Task Added successfully!',
+                        'success'
+                    );
+                    reset();
+                }))
+
+
     };
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -47,18 +55,18 @@ const AddTask = () => {
                             </label>
                             <div className="flex gap-2">
                                 <label className="label justify-start gap-2 cursor-pointer">
-                                    <input type="radio" {...register("status")} value="complete"   className="radio checked:bg-blue-500" />
-                                    <span className="label-text">Complete</span>
+                                    <input type="radio" {...register("status")} value="completed" className="radio checked:bg-blue-500" />
+                                    <span className="label-text">Completed</span>
                                 </label>
                                 <label className="label justify-start gap-2 cursor-pointer">
-                                    <input type="radio" {...register("status")} value="pending"   className="radio checked:bg-blue-500"  />
+                                    <input type="radio" {...register("status")} value="pending" className="radio checked:bg-blue-500" />
                                     <span className="label-text">Pending</span>
                                 </label>
                             </div>
                         </div>
 
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary">Add Task</button>
+                            <button className="btn  btn-primary">Add Task</button>
                         </div>
                     </form>
 

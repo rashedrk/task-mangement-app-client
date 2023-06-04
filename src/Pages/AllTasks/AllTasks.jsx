@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { RiDeleteBin6Line } from 'react-icons/ri';
+import { MdTaskAlt } from 'react-icons/md';
 
 const AllTasks = () => {
     // loading and store task data 
@@ -53,6 +54,26 @@ const AllTasks = () => {
         })
     }
 
+    //handle completed task
+    const handleComplete = (id) => {
+        const updateInfo = { status: "completed" };
+
+        fetch(`http://localhost:3000/tasks/${id}`, {
+            method: "PUT",
+            headers: {
+                "content-type": "Application/json"
+            },
+            body: JSON.stringify(updateInfo)
+        })
+            .then(res => res.json()
+                .then(() => {
+                    Swal.fire(
+                        'Completed!',
+                        'Congrats You have Completed task successfully!',
+                        'success'
+                    )
+                }))
+    }
     return (
         <div className="">
             <table className="table w-full">
@@ -64,16 +85,26 @@ const AllTasks = () => {
                         <th>Description</th>
                         <th>Status</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        tasks.map((task, index) => <tr key={task._id}>
+                        tasks.map((task, index) => <tr className={task.status === "completed" && "text-gray-400 line-through"}
+                            key={task._id}>
                             <th>{index + 1}</th>
                             <td>{task.title}</td>
                             <td>{task.description}</td>
                             <td>{task.status}</td>
-                            <td><button onClick={() => handleDelete(task._id)} className="ms-3 btn btn-error"><RiDeleteBin6Line /></button></td>
+                            <td>
+                                <span className="tooltip" data-tip="Mark as completed">
+                                {
+                                    task.status === "pending" && <button onClick={() => handleComplete(task._id)} className="ms-3 btn btn-success btn-xs"><MdTaskAlt /></button>
+                                }
+                                </span>
+                                
+                                <button onClick={() => handleDelete(task._id)} className="ms-3 btn btn-error btn-xs"><RiDeleteBin6Line /></button>
+                            </td>
                         </tr>)
                     }
                 </tbody>
