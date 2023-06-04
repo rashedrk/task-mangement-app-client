@@ -1,8 +1,9 @@
+import AddTask from "../AddTask/AddTask";
 
 const Home = () => {
     return (
         <div>
-            This is home
+            <AddTask></AddTask>
         </div>
     );
 };
