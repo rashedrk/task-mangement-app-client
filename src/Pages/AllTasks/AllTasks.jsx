@@ -90,7 +90,7 @@ const AllTasks = () => {
                 </thead>
                 <tbody>
                     {
-                        tasks.map((task, index) => <tr className={task.status === "completed" && "text-gray-400 line-through"}
+                        tasks.map((task, index) => <tr className={task.status === "completed" ? "text-gray-400 line-through" : ""}
                             key={task._id}>
                             <th>{index + 1}</th>
                             <td>{task.title}</td>
