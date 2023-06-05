@@ -7,7 +7,7 @@ const AllTasks = () => {
     // loading and store task data 
     const [tasks, setTask] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:3000/tasks')
+        fetch('https://task-management-app-server-vert.vercel.app/tasks')
             .then(res => res.json())
             .then(data => setTask(data))
     }, [tasks]);
@@ -25,7 +25,7 @@ const AllTasks = () => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:3000/tasks/${id}`, {
+                fetch(`https://task-management-app-server-vert.vercel.app/tasks/${id}`, {
                     method: "DELETE"
                 })
                     .then(res => res.json())
@@ -58,7 +58,7 @@ const AllTasks = () => {
     const handleComplete = (id) => {
         const updateInfo = { status: "completed" };
 
-        fetch(`http://localhost:3000/tasks/${id}`, {
+        fetch(`https://task-management-app-server-vert.vercel.app/tasks/${id}`, {
             method: "PUT",
             headers: {
                 "content-type": "Application/json"
@@ -75,7 +75,17 @@ const AllTasks = () => {
                 }))
     }
     return (
-        <div className="">
+        <div>
+            {/* search option  */}
+            <div className="form-control mb-5">
+                <div className="input-group justify-center">
+                    <input type="text" placeholder="Search by Name or Status" className="input input-bordered" />
+                    <button className="btn btn-square">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </button>
+                </div>
+            </div>
+            {/* table to show all task  */}
             <table className="table w-full">
                 {/* head */}
                 <thead>
@@ -98,11 +108,11 @@ const AllTasks = () => {
                             <td>{task.status}</td>
                             <td>
                                 <span className="tooltip" data-tip="Mark as completed">
-                                {
-                                    task.status === "pending" && <button onClick={() => handleComplete(task._id)} className="ms-3 btn btn-success btn-xs"><MdTaskAlt /></button>
-                                }
+                                    {
+                                        task.status === "pending" && <button onClick={() => handleComplete(task._id)} className="ms-3 btn btn-success btn-xs"><MdTaskAlt /></button>
+                                    }
                                 </span>
-                                
+
                                 <button onClick={() => handleDelete(task._id)} className="ms-3 btn btn-error btn-xs"><RiDeleteBin6Line /></button>
                             </td>
                         </tr>)

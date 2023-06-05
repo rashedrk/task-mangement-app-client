@@ -8,7 +8,7 @@ const AddTask = () => {
     //handling form submit
     const onSubmit = item => {
         console.log(item);
-        fetch('http://localhost:3000/task', {
+        fetch('https://task-management-app-server-vert.vercel.app/task', {
             method: "POST",
             headers: {
                 "content-type": "Application/json"
