@@ -56,9 +56,9 @@ const AddTask = () => {
                             <label className="label">
                                 <span className="label-text">Description</span>
                             </label>
-                            <input type="text" {...register("description",{ required: true , minLength: 5 , maxLength: 20})} placeholder="Enter description here" className="input input-bordered" />
+                            <input type="text" {...register("description",{ required: true , minLength: 3 , maxLength: 20})} placeholder="Enter description here" className="input input-bordered" />
                             {errors.description && <span className="text-red-600">
-                                Description Must be greater then 5 character and less than 20 character</span>}
+                                Description Must be greater then 3 character and less than 20 character</span>}
                         </div>
 
                         <div className="form-control">
